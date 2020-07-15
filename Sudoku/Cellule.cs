@@ -9,5 +9,10 @@ namespace Sudoku
         public int Valeur { get; set; }
         public bool EstTrouve { get; set; }
         public bool EstValeurInitiale { get; set; }
+
+        public override string ToString()
+        {
+            return $"Valeur : {Valeur}";
+        }
     }
 }
