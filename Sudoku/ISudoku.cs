@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Sudoku
 {
-    interface ISudoku
+    public interface ISudoku
     {
         /// <summary>
         /// Retourne la grille avec les valeurs initiales et les valeurs renseignées par après

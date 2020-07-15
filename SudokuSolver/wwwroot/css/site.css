@@ -69,3 +69,32 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+#sudoku{
+    text-align: center;
+    border: 3px solid black;
+    margin: 20px auto;
+}
+#sudoku tr {
+    border-bottom: 1px solid black;
+}
+#sudoku tr:nth-child(3n) {
+    border-bottom: 3px solid black;
+}
+#sudoku tr:nth-child(9n) {
+    border-bottom: 0;
+}
+#sudoku tr td {
+    border-right: 1px solid black;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+}
+
+#sudoku tr td:nth-child(3n) {
+    border-right: 3px solid black;
+}
+#sudoku tr td:nth-child(9n) {
+    border-right: 0;
+}
