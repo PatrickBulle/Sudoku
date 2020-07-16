@@ -40,12 +40,25 @@ namespace Sudoku
 
         public Cellule[][] GetGrille()
         {
-            throw new NotImplementedException();
+            return TabCellules;
         }
 
         public bool InitGrille(Cellule[][] valeurs)
         {
-            throw new NotImplementedException();
+           
+            return true;
+        }
+
+        public void RestaurerGrille()
+        {
+            for (int ligne = 0; ligne < TabCellules.GetLength(0); ligne++)
+            {
+                for (int colonne = 0; colonne < TabCellules.GetLength(1); colonne++)
+                {
+                    if (TabCellules[ligne][colonne].EstValeurInitiale == false)
+                        TabCellules[ligne][colonne].Valeur = 0;
+                }
+            }
         }
 
         public Cellule ResoudreCellule(int posX, int posY)

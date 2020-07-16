@@ -36,6 +36,12 @@ namespace Sudoku
         bool InitGrille(Cellule[][] valeurs);
 
         /// <summary>
+        /// Restaurer la grille
+        /// </summary>
+        /// <returns>Restaure les valeurs initiales d'une grille</returns>
+        public void RestaurerGrille();
+
+        /// <summary>
         /// Lance la résolution de la cellule
         /// </summary>
         /// <param name="posX">Position X</param>
