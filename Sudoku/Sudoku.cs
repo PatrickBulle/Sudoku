@@ -45,8 +45,15 @@ namespace Sudoku
 
         public bool InitGrille(Cellule[][] valeurs)
         {
-           
-            return true;
+            try
+            {
+                TabCellules = valeurs;
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public void RestaurerGrille()
