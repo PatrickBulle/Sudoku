@@ -72,8 +72,10 @@ namespace Sudoku
             {
                 for (int colonne = 0; colonne < TabCellules[ligne].Length; colonne++)
                 {
-                    if (TabCellules[ligne][colonne].EstValeurInitiale == false)
+                    TabCellules[ligne][colonne].EstTrouve = false;
+                    if (TabCellules[ligne][colonne].EstValeurInitiale == false) {
                         TabCellules[ligne][colonne].Valeur = 0;
+                    }
                 }
             }
         }
