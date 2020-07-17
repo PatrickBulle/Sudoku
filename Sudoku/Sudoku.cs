@@ -12,7 +12,17 @@ namespace Sudoku
         public Sudoku()
         {
             TabCellules = new Cellule[9][];
-            for(int x = 0; x <= 8; x++)
+
+            TabCellules[0] = new Cellule[] { new Cellule(), new Cellule(), new Cellule(6), new Cellule(2), new Cellule(), new Cellule(), new Cellule(), new Cellule(8), new Cellule() };
+            TabCellules[1] = new Cellule[] { new Cellule(), new Cellule(), new Cellule(8), new Cellule(9), new Cellule(7), new Cellule(), new Cellule(), new Cellule(), new Cellule() };
+            TabCellules[2] = new Cellule[] { new Cellule(), new Cellule(), new Cellule(4), new Cellule(8), new Cellule(1), new Cellule(), new Cellule(5), new Cellule(), new Cellule() };
+            TabCellules[3] = new Cellule[] { new Cellule(), new Cellule(), new Cellule(), new Cellule(), new Cellule(6), new Cellule(), new Cellule(), new Cellule(), new Cellule(2) };
+            TabCellules[4] = new Cellule[] { new Cellule(), new Cellule(7), new Cellule(), new Cellule(), new Cellule(), new Cellule(), new Cellule(), new Cellule(3), new Cellule() };
+            TabCellules[5] = new Cellule[] { new Cellule(6), new Cellule(), new Cellule(), new Cellule(), new Cellule(5), new Cellule(), new Cellule(), new Cellule(), new Cellule() };
+            TabCellules[6] = new Cellule[] { new Cellule(), new Cellule(), new Cellule(2), new Cellule(), new Cellule(4), new Cellule(7), new Cellule(1), new Cellule(), new Cellule() };
+            TabCellules[7] = new Cellule[] { new Cellule(), new Cellule(), new Cellule(3), new Cellule(), new Cellule(2), new Cellule(8), new Cellule(4), new Cellule(), new Cellule() };
+            TabCellules[8] = new Cellule[] { new Cellule(), new Cellule(5), new Cellule(), new Cellule(), new Cellule(), new Cellule(1), new Cellule(2), new Cellule(), new Cellule() };
+           /* for (int x = 0; x <= 8; x++)
             {
                 TabCellules[x] = new Cellule[9];
                 for (int y = 0; y <= 8; y++)
@@ -20,12 +30,12 @@ namespace Sudoku
                     TabCellules[x][y] = new Cellule
                     {
                         EstTrouve = false,
-                        EstValeurInitiale = true,
+                        EstValeurInitiale = false,
                         Valeur = x * 10 + (y + 1)
                     };
                         
                 }
-            }
+            }*/
         }
 
         //Commentaire
@@ -50,7 +60,7 @@ namespace Sudoku
                 TabCellules = valeurs;
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -58,9 +68,9 @@ namespace Sudoku
 
         public void RestaurerGrille()
         {
-            for (int ligne = 0; ligne < TabCellules.GetLength(0); ligne++)
+            for (int ligne = 0; ligne < TabCellules.Length; ligne++)
             {
-                for (int colonne = 0; colonne < TabCellules.GetLength(1); colonne++)
+                for (int colonne = 0; colonne < TabCellules[ligne].Length; colonne++)
                 {
                     if (TabCellules[ligne][colonne].EstValeurInitiale == false)
                         TabCellules[ligne][colonne].Valeur = 0;
@@ -70,17 +80,51 @@ namespace Sudoku
 
         public Cellule ResoudreCellule(int posX, int posY)
         {
-            throw new NotImplementedException();
+            Cellule maCellule; 
+            Region regionCellule;
+            if (PositionXYEstValide(posX, posY))
+            {
+                if (!TabCellules[posX][posY].EstValeurInitiale && !TabCellules[posX][posY].EstTrouve)
+                {
+                    regionCellule = GetRegion(posX, posY);
+                    if (regionCellule != null)
+                    {
+                        maCellule = GetCellule(posX, posY);
+                        Console.WriteLine($"X : {posX} - Y : {posY}");
+                        Console.WriteLine(maCellule.ToString());
+                        List<int> valeurs = new List<int>();
+                        valeurs.AddRange(regionCellule.RecupererValeurs());
+                        valeurs.AddRange(RecupererValeursLigne(posX, posY));
+                        valeurs.AddRange(RecupererValeursColonne(posX, posY));
+                        maCellule.Maj(valeurs);
+                        Console.WriteLine(maCellule.ToString());
+                        return maCellule;
+                    }
+                }
+            }
+            return null;
         }
 
         public Cellule[][] ResoudreGrille()
-        {
-            throw new NotImplementedException();
+        {       
+            for (int ligne = 0; ligne < TabCellules.Length; ligne++)
+            {
+                for (int colonne = 0; colonne < TabCellules[ligne].Length; colonne++)
+                {
+                    if (!TabCellules[ligne][colonne].EstValeurInitiale && !TabCellules[ligne][colonne].EstTrouve)
+                    {
+                        ResoudreCellule(ligne, colonne);
+                        if (TabCellules[ligne][colonne].EstTrouve)
+                            TabCellules = ResoudreGrille();
+                    }
+                }
+            }
+            return TabCellules;
         }
 
         public bool SetCellule(int posX, int posY, int valeur)
         {
-            if (Enumerable.Range(0, 9).Contains(posX) && Enumerable.Range(0, 9).Contains(posY))
+            if (PositionXYEstValide(posX, posY))
             {
                 if (TabCellules[posX][posY].EstValeurInitiale == false && Enumerable.Range(1, 9).Contains(valeur))
                 {
@@ -90,6 +134,85 @@ namespace Sudoku
                 }
             }
             return false;   
+        }
+
+        private bool PositionXYEstValide(int posX, int posY)
+        {
+            return (Enumerable.Range(0, TabCellules.Length).Contains(posX) && Enumerable.Range(0, TabCellules[posX].Length).Contains(posY));
+        }
+
+        private Region GetRegion(int posX, int posY)
+        {
+            if (PositionXYEstValide(posX, posY))
+            {
+                int? numRegion = GetNumRegion(posX, posY);
+                if (numRegion != null)
+                {
+                    Region maRegion = new Region();
+                    maRegion.Indice = (int)numRegion;
+                    maRegion.Cellules = GetCelluleDeRegion((int)numRegion);
+                    return maRegion;
+                }
+                else
+                    return null;
+            }
+            return null;
+        }
+
+        private int? GetNumRegion(int posX, int posY)
+        {
+            if (PositionXYEstValide(posX, posY))
+            {
+                return (int)(Math.Floor(posX/3.0)+1) + (int)(Math.Floor(posY/3.0))*3 - 1;
+            }
+            return null;
+        }
+
+        private Cellule[][] GetCelluleDeRegion(int indiceRegion)
+        {
+            Cellule[][] mesCellules = new Cellule[9][];
+            int posXMini, posXMaxi, posYMini, posYMaxi;
+
+            posXMini = (indiceRegion % 3) * 3;
+            posXMaxi = posXMini + 2;
+
+            posYMini = (int)(Math.Floor(indiceRegion / 3.0)) * 3;
+            posYMaxi = posYMini + 2;
+
+           //int xCompteur = 0;
+            for (int ligne = posXMini; ligne <= posXMaxi; ligne++)
+            {
+                mesCellules[ligne] = new Cellule[9];
+                    //int yCompteur = 0;
+                for (int colonne = posYMini; colonne <= posYMaxi; colonne++)
+                {
+                    mesCellules[ligne][colonne] = TabCellules[ligne][colonne];
+                }
+                //xCompteur++;
+            }
+            return mesCellules;
+        }
+
+        private List<int> RecupererValeursLigne(int posX, int posY)
+        {
+            List<int> valeurs = new List<int>();
+            for (int x = 0; x < TabCellules.Length; x++)
+            {
+                if (x != posX && TabCellules[x][posY].Valeur != 0)
+                    valeurs.Add(TabCellules[x][posY].Valeur);
+            }
+            return valeurs;
+        }
+
+        private List<int> RecupererValeursColonne(int posX, int posY)
+        {
+            List<int> valeurs = new List<int>();
+            for (int y = 0; y < TabCellules[posX].Length; y++)
+            {
+                if (y != posY && TabCellules[posX][y].Valeur != 0)
+                    valeurs.Add(TabCellules[posX][y].Valeur);
+            }
+            return valeurs;
         }
     }
 }
