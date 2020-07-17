@@ -214,5 +214,18 @@ namespace Sudoku
             }
             return valeurs;
         }
+
+        public void ViderGrille()
+        {
+            for (int ligne = 0; ligne < TabCellules.Length; ligne++)
+            {
+                for (int colonne = 0; colonne < TabCellules[ligne].Length; colonne++)
+                {
+                    TabCellules[ligne][colonne].Valeur = 0;
+                    TabCellules[ligne][colonne].EstValeurInitiale = false;
+                    TabCellules[ligne][colonne].EstTrouve = false;
+                }
+            }
+        }
     }
 }
