@@ -124,7 +124,7 @@ namespace Sudoku
         }
 
         public Cellule[][] ResoudreGrille(bool parEtape = false)
-        {       
+        {
             for (int ligne = 0; ligne < TabCellules.Length; ligne++)
             {
                 for (int colonne = 0; colonne < TabCellules[ligne].Length; colonne++)
@@ -134,6 +134,7 @@ namespace Sudoku
                         ResoudreCellule(ligne, colonne);
                         if (TabCellules[ligne][colonne].EstTrouve)
                         {
+                            MajToutesLesCellules();
                             if (parEtape)
                                 return TabCellules;
                             TabCellules = ResoudreGrille();
@@ -272,6 +273,39 @@ namespace Sudoku
                     TabCellules[ligne][colonne].Valeur = 0;
                     TabCellules[ligne][colonne].EstValeurInitiale = false;
                     TabCellules[ligne][colonne].EstTrouve = false;
+                }
+            }
+        }
+
+        private void MajToutesLesCellules()
+        {
+            Cellule maCellule;
+            Region regionCellule;
+            for (int ligne = 0; ligne < TabCellules.Length; ligne++)
+            {
+                for (int colonne = 0; colonne < TabCellules[ligne].Length; colonne++)
+                {
+                    if (!TabCellules[ligne][colonne].EstValeurInitiale && !TabCellules[ligne][colonne].EstTrouve)
+                    {
+                        if (PositionXYEstValide(ligne, colonne))
+                        {
+                            if (!TabCellules[ligne][colonne].EstValeurInitiale && !TabCellules[ligne][colonne].EstTrouve)
+                            {
+                                regionCellule = GetRegion(ligne, colonne);
+                                if (regionCellule != null)
+                                {
+                                    maCellule = GetCellule(ligne, colonne);
+                                    //Console.WriteLine($"X : {posX+1} - Y : {posY+1}");
+                                    //Console.WriteLine(maCellule.ToString());
+                                    List<int> valeurs = new List<int>();
+                                    valeurs.AddRange(regionCellule.RecupererValeurs());
+                                    valeurs.AddRange(RecupererValeursLigne(ligne, colonne));
+                                    valeurs.AddRange(RecupererValeursColonne(ligne, colonne));
+                                    maCellule.MajPossibilites(valeurs);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

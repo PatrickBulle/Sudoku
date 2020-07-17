@@ -51,7 +51,7 @@ namespace Sudoku
             }
         }
 
-        private void MajPossibilites(List<int> valeurs)
+        internal void MajPossibilites(List<int> valeurs)
         {
             foreach (int valeur in valeurs)
             {
