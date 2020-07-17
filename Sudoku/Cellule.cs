@@ -22,9 +22,16 @@ namespace Sudoku
         public Cellule(int valeur)
         {
             Valeur = valeur;
-            EstTrouve = true;
-            EstValeurInitiale = true;
-            Propositions = new List<int>();
+            if (valeur != 0)
+            {
+                EstTrouve = true;
+                EstValeurInitiale = true;
+                Propositions = new List<int>();
+            }
+            else
+            {
+                Propositions = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            }
         }
 
 

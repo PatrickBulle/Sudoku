@@ -71,8 +71,8 @@
                 //var data = JSON.parse(response);
                 for (var i = 0; i < data.length; i++) {
                     for (var j = 0; j < data[i].length; j++) {
-                        //if (!data[i][j].estValeurInitiale) {
-                        if (!$('.row-' + i + '.column-' + j).hasClass('valeurInit')) {
+                        if (!data[i][j].estValeurInitiale && data[i][j].estTrouve) {
+                        //if (!$('.row-' + i + '.column-' + j).hasClass('valeurInit')) {
                             $('.row-' + i + '.column-' + j).text(data[i][j].valeur);
                             $('.row-' + i + '.column-' + j).addClass('valeurTrouvee');
                             $('.row-' + i + '.column-' + j).attr('contenteditable', false);
@@ -126,8 +126,12 @@ function callbackContextMenu(key, options) {
         url: "Home/ResoudreCellule",
         data: { posX: posX, posY: posY },
         success: function (data) {
-            if (data.valeur != 0) {
-                cellule.text(data.valeur).attr('contenteditable', false).css('font-weight', 'bold').addClass('valeurTrouvee');
+            if (data != undefined) {
+                if (data.valeur != 0) {
+                    cellule.text(data.valeur).attr('contenteditable', false).css('font-weight', 'bold').addClass('valeurTrouvee');
+                }
+            } else {
+                alert("On ne peut pas trouver cette cellule");
             }
         }
     });

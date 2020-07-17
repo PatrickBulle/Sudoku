@@ -23,27 +23,8 @@ namespace SudokuSolver.Controllers
 
         public IActionResult Index()
         {
-            Cellule[][] cellules    = new Cellule[9][];
-            Cellule Vide     = new Cellule(){Valeur = 0, EstTrouve = false, EstValeurInitiale = false};
-            Cellule Un       = new Cellule(){Valeur = 1, EstTrouve = false, EstValeurInitiale = true};
-            Cellule Deux     = new Cellule(){Valeur = 2, EstTrouve = false, EstValeurInitiale = true };
-            Cellule Trois    = new Cellule(){Valeur = 3, EstTrouve = false, EstValeurInitiale = true };
-            Cellule Quatre   = new Cellule(){Valeur = 4, EstTrouve = false, EstValeurInitiale = true };
-            Cellule Cinq     = new Cellule(){Valeur = 5, EstTrouve = false, EstValeurInitiale = true };
-            Cellule Six      = new Cellule(){Valeur = 6, EstTrouve = false, EstValeurInitiale = true };
-            Cellule Sept     = new Cellule(){Valeur = 7, EstTrouve = false, EstValeurInitiale = true };
-            Cellule Huit     = new Cellule(){Valeur = 8, EstTrouve = false, EstValeurInitiale = true };
-            Cellule Neuf     = new Cellule(){Valeur = 9, EstTrouve = false, EstValeurInitiale = true };
-            cellules[0] = new Cellule[9] { Vide, Vide, Six, Deux, Vide, Vide, Vide, Huit, Vide };
-            cellules[1] = new Cellule[9] { Vide, Vide, Huit, Neuf, Sept, Vide, Vide, Vide, Vide };
-            cellules[2] = new Cellule[9] { Vide, Vide, Quatre, Huit, Un, Vide, Cinq, Vide, Vide };
-            cellules[3] = new Cellule[9] { Vide, Vide, Vide, Vide, Six, Vide, Vide, Vide, Deux };
-            cellules[4] = new Cellule[9] { Vide, Sept, Vide, Vide, Vide, Vide, Vide, Trois, Vide };
-            cellules[5] = new Cellule[9] { Six, Vide, Vide, Vide, Cinq, Vide, Vide, Vide, Vide };
-            cellules[6] = new Cellule[9] { Vide, Vide, Deux, Vide, Quatre, Sept, Un, Vide, Vide };
-            cellules[7] = new Cellule[9] { Vide, Vide, Trois, Vide, Deux, Huit, Quatre, Vide, Vide };
-            cellules[8] = new Cellule[9] { Vide, Cinq, Vide, Vide, Vide, Un, Deux, Vide, Vide };
-            return View(cellules);
+
+            return View(_sudoku.GetGrille());
         }
 
         [HttpPost]
@@ -55,10 +36,7 @@ namespace SudokuSolver.Controllers
                 Cellule[] row = new Cellule[value[i].Length];
                 for (int j = 0; j < value[i].Length; j++)
                 {
-                    Cellule cell = new Cellule();
-                    cell.Valeur = value[i][j];
-                    cell.EstValeurInitiale = true;
-                    cell.EstTrouve = false;
+                    Cellule cell = new Cellule(value[i][j]);
                     row[j] = cell;
                 }
                 cellules[i] = row;
