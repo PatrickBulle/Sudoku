@@ -44,7 +44,7 @@ namespace SudokuSolver.Models
             return maCellule;
         }
 
-        public Cellule[][] ResoudreGrille()
+        public Cellule[][] ResoudreGrille(bool test = false)
         {
             Cellule[][] mesCellules = new Cellule[9][];
             for(int row = 0; row < 9; row++)

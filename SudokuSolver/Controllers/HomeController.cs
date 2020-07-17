@@ -61,6 +61,13 @@ namespace SudokuSolver.Controllers
         }
 
         [HttpPost]
+        public Cellule[][] ResoudreParEtape()
+        {
+            Cellule[][] mesCellules = _sudoku.ResoudreGrille(true);
+            return mesCellules;
+        }
+
+        [HttpPost]
         public Cellule ResoudreCellule(int posX, int posY)
         {
             Cellule maCellule = _sudoku.ResoudreCellule(posX, posY);

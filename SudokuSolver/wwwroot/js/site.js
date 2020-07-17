@@ -83,6 +83,26 @@
             }
         });
     });
+    $('#resolve-sudoku-par-etape').on('click', function () {
+        $.ajax({
+            type: "POST",
+            url: "Home/ResoudreParEtape",
+            success: function (data) {
+                //var data = JSON.parse(response);
+                for (var i = 0; i < data.length; i++) {
+                    for (var j = 0; j < data[i].length; j++) {
+                        if (!data[i][j].estValeurInitiale && data[i][j].estTrouve) {
+                            //if (!$('.row-' + i + '.column-' + j).hasClass('valeurInit')) {
+                            $('.row-' + i + '.column-' + j).text(data[i][j].valeur);
+                            $('.row-' + i + '.column-' + j).addClass('valeurTrouvee');
+                            $('.row-' + i + '.column-' + j).attr('contenteditable', false);
+                            $('.row-' + i + '.column-' + j).css('font-weight', 'bold');
+                        }
+                    }
+                }
+            }
+        });
+    });  
     $('#vide-sudoku').on('click', function () {
         $.ajax({
             type: "POST",
