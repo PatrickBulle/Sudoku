@@ -41,6 +41,13 @@ namespace Sudoku
         /// <returns>Restaure les valeurs initiales d'une grille</returns>
         public void RestaurerGrille();
 
+
+        /// <summary>
+        /// Vider la grille
+        /// </summary>
+        /// <returns>Vide toutes les cellules d'une grille</returns>
+        public void ViderGrille();
+
         /// <summary>
         /// Lance la résolution de la cellule
         /// </summary>

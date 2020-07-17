@@ -91,5 +91,10 @@ namespace Sudoku
             }
             return false;   
         }
+
+        public void ViderGrille()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
