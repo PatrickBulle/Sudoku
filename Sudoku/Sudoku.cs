@@ -105,7 +105,7 @@ namespace Sudoku
                         }
                         else
                         {
-                            int? testComparaison = regionCellule.ComparaisonValeurs(maCellule.Propositions);
+                            int? testComparaison = maCellule.ComparaisonValeurs(regionCellule.RecupererAutresPropositionDeLaRegion(posX, posY));
                             if (testComparaison != null)
                             {
                                 maCellule.EstTrouve = true;
@@ -120,17 +120,18 @@ namespace Sudoku
             return null;
         }
 
-        public Cellule[][] ResoudreGrille()
+        public Cellule[][] ResoudreGrille(bool parEtape = false)
         {       
             for (int ligne = 0; ligne < TabCellules.Length; ligne++)
             {
                 for (int colonne = 0; colonne < TabCellules[ligne].Length; colonne++)
                 {
-                    if (!TabCellules[ligne][colonne].EstValeurInitiale && !TabCellules[ligne][colonne].EstTrouve)
+                    if (!TabCellules[ligne][colonne].EstValeurInitiale && !TabCellules[ligne][colonne].EstTrouve && avancement)
                     {
                         ResoudreCellule(ligne, colonne);
                         if (TabCellules[ligne][colonne].EstTrouve)
                             TabCellules = ResoudreGrille();
+
                     }
                 }
             }

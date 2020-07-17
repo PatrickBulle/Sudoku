@@ -40,6 +40,7 @@ namespace Sudoku
             {
                 EstTrouve = true;
                 Valeur = Propositions[0];
+                Propositions = new List<int>();
             }
         }
 
@@ -51,6 +52,53 @@ namespace Sudoku
                 if (index >= 0)
                     Propositions.RemoveAt(index);
             }
+        }
+
+        internal int? ComparaisonValeurs(List<List<int>> propositionsAutresCellulesDeRegion)
+        {
+            bool estTrouve;
+            if (propositionsAutresCellulesDeRegion.Count > 0)
+            {
+                foreach (int proposition in Propositions)
+                {
+                    estTrouve = false;
+                    int numListe = 0;
+                    while (numListe < propositionsAutresCellulesDeRegion.Count && !estTrouve)
+                    {
+                        if (propositionsAutresCellulesDeRegion[numListe].Contains(proposition))
+                            estTrouve = true;
+                        numListe++;
+                    }
+                    if (!estTrouve)
+                        return proposition;
+                }
+            }
+            return null;
+
+
+            /*
+            for (int compteur = 0; compteur < valeurs.Count; compteur++)
+            {
+                foreach (int valeur in valeurs[compteur])
+                {
+                    estTrouve = false;
+                    int comparer = 0;
+                    while (comparer < valeurs.Count && !estTrouve)
+                    {
+                        if (comparer != compteur)
+                        {
+                            if (propositions.Contains(valeur) && valeurs[comparer].Contains(valeur))
+                                estTrouve = true;
+                        }
+                        comparer++;
+                    }
+                    if (estTrouve)
+                        return valeur;
+                }
+            }
+            */
+            //return null;
+
         }
        
     }

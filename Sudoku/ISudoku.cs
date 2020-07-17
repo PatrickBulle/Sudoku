@@ -60,6 +60,6 @@ namespace Sudoku
         /// Lance la résolution de la grille
         /// </summary>
         /// <returns>Retourne la grille si elle est résolue, null dans le cas contraire</returns>
-        Cellule[][] ResoudreGrille();
+        Cellule[][] ResoudreGrille(bool parEtape = false);
     }
 }
