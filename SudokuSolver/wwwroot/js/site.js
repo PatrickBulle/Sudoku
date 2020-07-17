@@ -37,7 +37,7 @@
         console.log(tabCellules);
     });
     $("#sudoku td").on('keypress', function (e) {
-        if (isNaN(String.fromCharCode(e.which)) || $(this)[0].innerText !== "") {
+        if (isNaN(String.fromCharCode(e.which)) || $(this)[0].innerText.trim() !== "") {
             e.preventDefault()
         } else {
             if ($('#sudoku').hasClass('initialise')) {

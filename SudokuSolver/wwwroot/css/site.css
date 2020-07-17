@@ -98,3 +98,9 @@ body {
 #sudoku tr td:nth-child(9n) {
     border-right: 0;
 }
+#sudoku tr td.valeurTrouvee {
+    background-color: green;
+}
+#sudoku tr td.valeurInit {
+    background-color: grey;
+}
