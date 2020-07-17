@@ -101,13 +101,14 @@ namespace Sudoku
                         maCellule.Maj(valeurs);
                         if (maCellule.EstTrouve)
                         {
-                            Console.WriteLine($"Ligne : {posX+1} - Colonne : {posY+1}");
+                            Console.WriteLine($"Ligne : {posX} - Colonne : {posY}");
                             Console.WriteLine(maCellule.ToString());
                             Console.WriteLine(Environment.NewLine);
                         }
                         else
                         {
-                            int? testComparaison = maCellule.ComparaisonValeurs(regionCellule.RecupererAutresPropositionDeLaRegion(posX, posY));
+                            Cellule[][] autresCelluleDeRegion = GetAutresCelluleDeRegion(regionCellule.Indice, posX, posY);
+                            int? testComparaison = maCellule.ComparaisonValeurs(regionCellule.RecupererAutresPropositionDeLaRegion(autresCelluleDeRegion));
                             if (testComparaison != null)
                             {
                                 maCellule.EstTrouve = true;
@@ -150,7 +151,7 @@ namespace Sudoku
                 if (TabCellules[posX][posY].EstValeurInitiale == false && Enumerable.Range(1, 9).Contains(valeur))
                 {
                     TabCellules[posX][posY].Valeur = valeur;
-                    // EstTrouve à gérer ?
+                    TabCellules[posX][posY].EstTrouve = true;
                     return true;
                 }
             }
@@ -208,6 +209,32 @@ namespace Sudoku
                 for (int colonne = posYMini; colonne <= posYMaxi; colonne++)
                 {
                     mesCellules[ligne][colonne] = TabCellules[ligne][colonne];
+                }
+                //xCompteur++;
+            }
+            return mesCellules;
+        }
+
+        private Cellule[][] GetAutresCelluleDeRegion(int indiceRegion, int posX, int posY)
+        {
+            Cellule[][] mesCellules = new Cellule[9][];
+            int posXMini, posXMaxi, posYMini, posYMaxi;
+
+            posXMini = (indiceRegion % 3) * 3;
+            posXMaxi = posXMini + 2;
+
+            posYMini = (int)(Math.Floor(indiceRegion / 3.0)) * 3;
+            posYMaxi = posYMini + 2;
+
+            //int xCompteur = 0;
+            for (int ligne = posXMini; ligne <= posXMaxi; ligne++)
+            {
+                mesCellules[ligne] = new Cellule[9];
+                //int yCompteur = 0;
+                for (int colonne = posYMini; colonne <= posYMaxi; colonne++)
+                {
+                    if(ligne != posX || colonne != posY)
+                        mesCellules[ligne][colonne] = TabCellules[ligne][colonne];
                 }
                 //xCompteur++;
             }

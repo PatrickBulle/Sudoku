@@ -30,18 +30,19 @@ namespace Sudoku
             return valeurs;
         }
 
-        internal List<List<int>> RecupererAutresPropositionDeLaRegion(int posX, int posY)
+        internal List<List<int>> RecupererAutresPropositionDeLaRegion(Cellule[][] autresCellulesDelaRegion)
         {
             List <List<int>> autresPropositionDeLaRegion = new List<List<int>>();
-            for (int x = 0; x < Cellules.Length; x++)
+
+            for (int x = 0; x < autresCellulesDelaRegion.Length; x++)
             {
-                if (Cellules[x] != null)
+                if (autresCellulesDelaRegion[x] != null)
                 {
-                    for (int y = 0; y < Cellules[x].Length; y++)
+                    for (int y = 0; y < autresCellulesDelaRegion[x].Length; y++)
                     {
-                        if (Cellules[x][y] != null && x != posX && y != posY)
-                            if(Cellules[x][y].Propositions.Count != 0)
-                                autresPropositionDeLaRegion.Add(Cellules[x][y].Propositions);
+                        if (autresCellulesDelaRegion[x][y] != null)//&& x != posX && y != posY)
+                            if(autresCellulesDelaRegion[x][y].Propositions.Count != 0)
+                                autresPropositionDeLaRegion.Add(autresCellulesDelaRegion[x][y].Propositions);
                             //if (Cellules[x][y].Propositions != 0)
                                 //valeurs.Add(Cellules[x][y].Valeur);
                     }
@@ -50,7 +51,7 @@ namespace Sudoku
             return autresPropositionDeLaRegion;
         }
 
-       /* internal int? ComparaisonValeurs(List<int> propositions)
+        /*internal int? ComparaisonValeurs(List<int> propositions)
         {
             List <List<int>> valeurs = new List<List<int>>();
             for (int x = 0; x < Cellules.Length; x++)
