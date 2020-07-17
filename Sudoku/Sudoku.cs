@@ -90,14 +90,29 @@ namespace Sudoku
                     if (regionCellule != null)
                     {
                         maCellule = GetCellule(posX, posY);
-                        Console.WriteLine($"X : {posX} - Y : {posY}");
-                        Console.WriteLine(maCellule.ToString());
+                        //Console.WriteLine($"X : {posX+1} - Y : {posY+1}");
+                        //Console.WriteLine(maCellule.ToString());
                         List<int> valeurs = new List<int>();
                         valeurs.AddRange(regionCellule.RecupererValeurs());
                         valeurs.AddRange(RecupererValeursLigne(posX, posY));
                         valeurs.AddRange(RecupererValeursColonne(posX, posY));
                         maCellule.Maj(valeurs);
-                        Console.WriteLine(maCellule.ToString());
+                        if (maCellule.EstTrouve)
+                        {
+                            Console.WriteLine($"Ligne : {posX+1} - Colonne : {posY+1}");
+                            Console.WriteLine(maCellule.ToString());
+                            Console.WriteLine(Environment.NewLine);
+                        }
+                        else
+                        {
+                            int? testComparaison = regionCellule.ComparaisonValeurs(maCellule.Propositions);
+                            if (testComparaison != null)
+                            {
+                                maCellule.EstTrouve = true;
+                                maCellule.Valeur = (int)testComparaison;
+                                maCellule.Propositions = new List<int> { (int)testComparaison };
+                            }
+                        }
                         return maCellule;
                     }
                 }
