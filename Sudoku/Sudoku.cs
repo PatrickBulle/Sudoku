@@ -128,12 +128,15 @@ namespace Sudoku
             {
                 for (int colonne = 0; colonne < TabCellules[ligne].Length; colonne++)
                 {
-                    if (!TabCellules[ligne][colonne].EstValeurInitiale && !TabCellules[ligne][colonne].EstTrouve && avancement)
+                    if (!TabCellules[ligne][colonne].EstValeurInitiale && !TabCellules[ligne][colonne].EstTrouve)
                     {
                         ResoudreCellule(ligne, colonne);
                         if (TabCellules[ligne][colonne].EstTrouve)
+                        {
+                            if (parEtape)
+                                return TabCellules;
                             TabCellules = ResoudreGrille();
-
+                        }
                     }
                 }
             }
